@@ -127,8 +127,8 @@ def get_terms():
     df['dest_account'] = df.apply(lambda row: get_account(row['make'], row['model']), axis=1)
     df['dest_campaign'] = df.apply(lambda row: get_campaign(row['dest_account'], row['make'], row['model']), axis=1)
     df['dest_adgroup'] = 'DSA_Harvesting'
-    converting_terms = df[['Query', 'Impressions', 'Clicks', 'Cost', 'Conversions', 'dest_account', 'dest_campaign', 'Url']][df['Conversions'] > 0].groupby(['Query', 'dest_account', 'dest_campaign', 'Url']).sum().reset_index()
-    return converting_terms[(converting_terms['dest_account'] == 'Models') & (converting_terms['Impressions'] > 100)].sort_values('Conversions', ascending=False)
+    converting_terms = df[['Query', 'make', 'model', 'Impressions', 'Conversions', 'dest_account', 'dest_campaign', 'Url']][df['Conversions'] > 0].groupby(['Query', 'make', 'model', 'dest_account', 'dest_campaign', 'Url']).sum().reset_index()
+    return converting_terms[(converting_terms['dest_account'] == 'Models') & (converting_terms['Impressions'] > 10)].sort_values('Conversions', ascending=False)
 
 if __name__ == '__main__':
     get_terms()

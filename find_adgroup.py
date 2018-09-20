@@ -1,12 +1,10 @@
-from googleads import adwords
 import pandas as pd
 import build_adgroup as ba
 import build_adcopy as adcopy
 import requests
-client = adwords.AdWordsClient.LoadFromStorage('../adwords_api/googleads.yaml')
-client.client_customer_id = '5744449309' #Models
+import add_keywords as ak
 
-def get_campaign_id(campaign_name):
+def get_campaign_id(client, campaign_name):
     campaign_service = client.GetService('CampaignService', version='v201806')
 
     selector = {
@@ -23,19 +21,18 @@ def get_campaign_id(campaign_name):
         return page['entries'][0]['id']
     except:
         #if there is no campaign, the other script should handle it
-        print('No campaign found with that name')
         return
 
 
-def get_adgroup_id(campaign_name, brand_model):
+def get_adgroup_id(client, campaign_name, brand_model, keywords):
     """
     gets the ad group to insert keywords to. If it doesn't exist, it should create it
     """
-    campaign_id = get_campaign_id(campaign_name)
+    campaign_id = get_campaign_id(client, campaign_name)
 
     if(not campaign_id):
         #If campaign doesn't exist, ignore for now. campaign_builder.py should handle this
-        print('Campaign doesnt exist')
+        #print('Campaign doesnt exist')
         return
 
     adgroup_service = client.GetService('AdGroupService', version='v201806')
@@ -51,18 +48,20 @@ def get_adgroup_id(campaign_name, brand_model):
     }
     page = adgroup_service.get(selector)
 
+    #Need to add display name information from our API
+    suggestions_url = 'https://api.hey.car/search/count?q={}%20{}'.format(brand_model['make'], brand_model['model'])
+    response = requests.get(suggestions_url).json()
+    brand_model['make_display_name'] = response['aggregations']['make']
+    brand_model['model_display_name'] = response['aggregations']['model']
+
     try:
+        #the harvester adgroup already esist
         adgroup_id = page['entries'][0]['id']
-        return adgroup_id
+        ak.add_keyword(client, adgroup_id, keywords, 'EXACT', brand_model)
+        print(str(len(keywords)) + ' keywords added for ' + brand_model['make'] + ' ' + brand_model['model'])
     except:
+        #harvester adgroup needs to be created for that brand/model
         adgroup_id = ba.add_adgroup(client, campaign_id, adgroup_name)
-
-        #Need to add display name information
-        suggestions_url = 'https://api.hey.car/search/count?q={}%20{}'.format(brand_model['make'], brand_model['model'])
-        response = requests.get(suggestions_url).json()
-        brand_model['make_display_name'] = response['aggregations']['make']
-        brand_model['model_display_name'] = response['aggregations']['model']
-
         adcopy.add_adcopy(client, adgroup_id, brand_model)
-        ##NEED TO PASS Brand/Model INFO TO BUILD ADS
-        return adgroup_id
+        ak.add_keyword(client, adgroup_id, keywords, 'EXACT', brand_model)
+        print(str(len(keywords)) + ' keywords added for ' + brand_model['make'] + ' ' + brand_model['model'])

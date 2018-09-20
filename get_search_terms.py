@@ -1,4 +1,3 @@
-
 from googleads import adwords
 import pandas as pd
 
@@ -43,7 +42,7 @@ def get_data(client):
                               {
                                   'field': 'Impressions',
                                   'operator': 'GREATER_THAN',
-                                  'values': '0'
+                                  'values': '500'
                               }
                           ]
                        },
@@ -107,8 +106,8 @@ def cap_all(word):
     return output
 
 def get_campaign(account, make, model):
-    make_clean = make.replace('-', ' ')
-    model_clean = model.replace('-', ' ')
+    make_clean = make.title().replace(' ', '').replace('-', ' ')
+    model_clean = model.title().replace(' ', '').replace('-', ' ')
 
     if (account == 'Models'):
         return 'Models_' + cap_all(make_clean) + cap_all(model_clean) + '_EM'

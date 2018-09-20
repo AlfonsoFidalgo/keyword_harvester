@@ -42,7 +42,12 @@ def get_data(client):
                               {
                                   'field': 'Impressions',
                                   'operator': 'GREATER_THAN',
-                                  'values': '500'
+                                  'values': '10'
+                              },
+                              {
+                                  'field': 'Conversions',
+                                  'operator': 'GREATER_THAN',
+                                  'values': '0'
                               }
                           ]
                        },

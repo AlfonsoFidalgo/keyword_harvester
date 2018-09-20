@@ -37,7 +37,7 @@ def get_adgroup_id(client, campaign_name, brand_model, keywords):
 
     adgroup_service = client.GetService('AdGroupService', version='v201806')
 
-    adgroup_name = 'Models_KeywordHarvester_EM_' + str(campaign_id)
+    adgroup_name = 'Models_SQR_EM_' + str(campaign_id)
     selector = {
         'fields': ['Id', 'Name'],
         'predicates': [{

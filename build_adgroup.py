@@ -6,7 +6,7 @@ def add_adgroup(client, campaign_id, adgroup_name):
         'operand': {
             'campaignId': campaign_id,
             'name': adgroup_name,
-            'status': 'PAUSED',  #'ENABLED'
+            'status': 'ENABLED',  #'ENABLED'
             'trackingUrlTemplate': '{lpurl}?gLocationId={loc_physical_ms}&cid={campaignid}&adid={creative}&agid={adgroupid}&kw={keyword}&mt={matchtype}',
             'biddingStrategyConfiguration': {
                 'bids': [

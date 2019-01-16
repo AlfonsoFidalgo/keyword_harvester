@@ -1,15 +1,21 @@
 ad_template = {
     'headline1': ['BRAND MODEL Gebrauchtwagen',
+                    'BRAND MODEL Gebraucht',
+                    'BRAND MODEL',
                    'MODEL Gebrauchtwagen',
                    'BRAND Gebrauchtwagen',
+                    'MODEL Gebraucht',
+                   'BRAND Gebraucht',
                    'Top Gebrauchtwagen auf heycar'],
     'headline2': ['BRAND MODEL mit Garantie',
                    'MODEL mit Garantie',
                    'BRAND mit Garantie',
                    'Alle Autos mit Garantie'],
+    'headline3': ['Gebrauchte Autos in Ihrer Nähe'],
     'descriptions': ['Große Auswahl an Gebrauchtwagen von Top Händlern - keine unseriösen Angebote.',
                      'Hochwertige Gebrauchtwagen von Händlern gründlich geprüft. Jetzt in Ihrer Nähe',
-                     'Gebrauchte mit max. 150.000 KM und 8 Jahren Lauﬂeistung. Qualitäts-geprüft']
+                     'Gebrauchte mit max. 150.000 KM und 8 Jahren Laufleistung. Qualitäts-geprüft'],
+    'description2': ['Das Premium-Autohaus im Internet: Nur geprüfte Gebrauchtwagen und Händler.']
 }
 
 def get_hl(make, model, headline):
@@ -74,6 +80,26 @@ def add_adcopy(client, adgroup_id, brand_model):
             }
         operations.append(ad)
 
+    catch_all_ad = {
+        'operator': 'ADD',
+        'operand': {
+            'xsi_type': 'AdGroupAd',
+            'adGroupId': adgroup_id,
+            'ad': {
+                'xsi_type': 'ExpandedTextAd',
+                'headlinePart1': '{KeyWord:Top Gebrauchtwagen auf heycar}',
+                'headlinePart2': 'Jedes Auto mit Garantie',
+                'headlinePart3': 'Gebrauchte Autos in Ihrer Nähe',
+                'description': 'Hochwertige Gebrauchtwagen von Händlern gründlich geprüft. Jetzt in Ihrer Nähe',
+                'description2': 'Das Premium-Autohaus im Internet: Nur geprüfte Gebrauchtwagen und Händler.',
+                'finalUrls': 'https://hey.car',
+                'path1': 'Gebrauchtwagen',
+                'path2': 'Garantie'
+            }
+        }
+    }
 
+    operations.append(catch_all_ad)
+    
     ads = ad_service.mutate(operations)
     return ads

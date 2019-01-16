@@ -8,11 +8,6 @@ def get_accounts(client):
                 'predicates': [
                     {
                         'field': 'Name',
-                        'operator': 'DOES_NOT_CONTAIN_IGNORE_CASE',
-                        'values': 'Display'
-                    },
-                    {
-                        'field': 'Name',
                         'operator': 'CONTAINS',
                         'values': 'DSA'
                     }
@@ -32,11 +27,9 @@ def get_data(client):
                 report = {
                       'reportName': 'KEYWORDLESS_QUERY_REPORT',
                       'dateRangeType': 'LAST_7_DAYS',
-                      #'dateRangeType': 'CUSTOM_DATE',
                       'reportType': 'KEYWORDLESS_QUERY_REPORT',
                       'downloadFormat': 'CSV',
                       'selector': {
-                          #'dateRange' : {'min': 20170601, 'max': 20180412},
                           'fields': columns,
                           'predicates': [
                               {

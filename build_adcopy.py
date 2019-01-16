@@ -42,7 +42,7 @@ def find_model_display_name(brand_model):
             return model['displayName']
 
 def add_adcopy(client, adgroup_id, brand_model):
-    ad_service = client.GetService('AdGroupAdService', version='v201806')
+    ad_service = client.GetService('AdGroupAdService', version='v201809')
 
     make = find_make_display_name(brand_model)
     if (make == None):

@@ -8,6 +8,7 @@ client.client_customer_id = '6503001352'# 'Test account' #Models '5744449309'
 
 def main():
     df = get_terms.get_terms()
+    #list of campaigns for the new keywords to be uploaded
     campaigns = df['dest_campaign'].unique()
 
     for campaign in campaigns:

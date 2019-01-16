@@ -1,5 +1,5 @@
 def add_adgroup(client, campaign_id, adgroup_name):
-    adgroup_service = client.GetService('AdGroupService', version='v201806')
+    adgroup_service = client.GetService('AdGroupService', version='v201809')
 
     operations = [{
         'operator': 'ADD',

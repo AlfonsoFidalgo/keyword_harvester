@@ -2,7 +2,7 @@ from googleads import adwords
 import pandas as pd
 
 def get_accounts(client):
-    managed_customer_service = client.GetService('ManagedCustomerService', version='v201806')
+    managed_customer_service = client.GetService('ManagedCustomerService', version='v201809')
     selector = {
                 'fields': ['Name','CustomerId'],
                 'predicates': [
@@ -24,7 +24,7 @@ def get_accounts(client):
 columns = ['AccountDescriptiveName', 'CampaignName','AdGroupName', 'Query', 'CategoryPaths','Url' , 'Impressions', 'Clicks', 'Conversions', 'Cost']
 def get_data(client):
     accounts = get_accounts(client)
-    report_downloader = client.GetReportDownloader(version='v201806')
+    report_downloader = client.GetReportDownloader(version='v201809')
     try:
         with open('sqr_dsa_raw.csv','wb') as a:
             for entry in accounts['links']:

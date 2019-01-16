@@ -1,5 +1,5 @@
 def add_keyword(client, adgroup_id, keywords, match_type, brand_model):
-    keyword_service = client.GetService('AdGroupCriterionService', version='v201806')
+    keyword_service = client.GetService('AdGroupCriterionService', version='v201809')
 
     keywords_upload = []
     for keyword in keywords:
